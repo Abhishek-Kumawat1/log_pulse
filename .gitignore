@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+logs.db
+test_logs.db
+*.pem
+server.key
+server.crt
+.env
+myenv
