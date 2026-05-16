@@ -1,0 +1,33 @@
+services:
+  server:
+    build: .
+    command: python server.py
+    environment:
+      - HOST=0.0.0.0
+    ports:
+      - "5000:5000"   # TCP socket (SSL)
+      - "8080:8080"   # Dashboard (HTTP + WebSocket)
+    volumes:
+      - db-data:/app/data
+    restart: unless-stopped
+
+  producer:
+    build: .
+    command: python producer.py
+    environment:
+      - SERVER_HOST=server
+    depends_on:
+      - server
+    restart: unless-stopped
+
+  consumer:
+    build: .
+    command: python consumer.py
+    environment:
+      - SERVER_HOST=server
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  db-data:
